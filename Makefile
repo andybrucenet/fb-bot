@@ -19,7 +19,7 @@ rebuild: clean build
 .PHONY: commit push
 
 commit: check-env
-	@git add --all && git commit -a
+	@git add --all && git commit -a foo
 
 push: commit
 	@git push heroku master
