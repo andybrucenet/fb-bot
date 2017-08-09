@@ -43,7 +43,7 @@ function sendGenericMessage(sender) {
         "elements": [{
           "title": "First card",
           "subtitle": "Element #1 of an hscroll",
-          "image_url": "http://messengerdemo.parseapp.com/img/rift.png",
+          "image_url": "http://jolstatic.fr/www/captures/1014/5/35145.jpg",
           "buttons": [{
             "type": "web_url",
             "url": "https://www.messenger.com",
@@ -56,7 +56,7 @@ function sendGenericMessage(sender) {
         }, {
           "title": "Second card",
           "subtitle": "Element #2 of an hscroll",
-          "image_url": "http://messengerdemo.parseapp.com/img/gearvr.png",
+          "image_url": "http://www.360rize.com/wp-content/uploads/2014/11/Gear-VR-no-Background.png",
           "buttons": [{
             "type": "postback",
             "title": "Postback",
