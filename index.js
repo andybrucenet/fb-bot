@@ -1,10 +1,38 @@
+//////////////////////////////////////////////////////////////
+// index.js, ABr
+// Main page for fb-bot
 'use strict'
 
+//////////////////////////////////////////////////////////////
+// includes
 const express = require('express')
 const bodyParser = require('body-parser')
 const request = require('request')
 const app = express()
 
+//////////////////////////////////////////////////////////////
+// local functions
+function sendTextMessage(sender, text) {
+  let messageData = { text:text }
+  request({
+    url: 'https://graph.facebook.com/v2.6/me/messages',
+    qs: {access_token:token},
+    method: 'POST',
+    json: {
+      recipient: {id:sender},
+      message: messageData,
+    }
+  }, function(error, response, body) {
+    if (error) {
+      console.log('Error sending messages: ', error)
+    } else if (response.body.error) {
+      console.log('Error: ', response.body.error)
+    }
+  })
+}
+
+//////////////////////////////////////////////////////////////
+// PEP
 app.set('port', (process.env.PORT || 5000))
 
 // Process application/x-www-form-urlencoded
@@ -30,12 +58,12 @@ app.get('/webhook/', function (req, res) {
 app.post('/webhook/', function (req, res) {
   let messaging_events = req.body.entry[0].messaging
   for (let i = 0; i < messaging_events.length; i++) {
-	  let event = req.body.entry[0].messaging[i]
-	  let sender = event.sender.id
-	  if (event.message && event.message.text) {
-		  let text = event.message.text
-		  sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200))
-	  }
+    let event = req.body.entry[0].messaging[i]
+    let sender = event.sender.id
+    if (event.message && event.message.text) {
+      let text = event.message.text
+      sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200))
+    }
   }
   res.sendStatus(200)
 })
