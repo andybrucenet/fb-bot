@@ -19,7 +19,7 @@ rebuild: clean build
 .PHONY: commit push
 
 commit: check-env
-	@git add --all && git commit -a foo
+	@git add --all && [ -n "$(git status --porcelain)" ] && git commit -a || true
 
 push: commit
 	@git push heroku master
