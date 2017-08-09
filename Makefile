@@ -1,6 +1,6 @@
 ########################################################################
 # Makefile, ABr
-# Project support to build infrastructure
+# Project support to build heroku
 
 ########################################################################
 # standard targets
