@@ -1,6 +1,6 @@
 ########################################################################
 # Makefile, ABr
-# Project support to build heroku
+# Project support to build heroku project
 
 ########################################################################
 # standard targets
@@ -19,7 +19,7 @@ rebuild: clean build
 .PHONY: commit push
 
 commit: check-env
-	@git add --all && [ -n "$(git status --porcelain)" ] && git commit -a || true
+	@git add --all && if [ -n "$(git status --porcelain)" ] ; then git commit -a ; else true ; fi
 
 push: commit
 	@git push heroku master
