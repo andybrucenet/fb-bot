@@ -3,41 +3,49 @@
 # Send command to listening cloudbot
 
 # expected files
-l_cloudbot_pipe='./.localdata/cloudbot_pipe'
 l_cloudbot_out='./.localdata/cloudbot_out'
 l_cloudbot_msg='./.localdata/cloudbot_msg'
+l_cloudbot_err='./.localdata/cloudbot_err'
+l_cloudbot_dbg='./.localdata/cloudbot_dbg'
 
 # must have something already in output so wc will work
-[ ! -s "$l_cloudbot_out" ] && echo "Missing $l_cloudbot_out" && exit 1
-if ! grep --quiet -i -e ' pong' "$l_cloudbot_out" ; then echo "Cloudbot is dead. Did you kill her?" ; exit 1 ; fi
-l_lines=$(wc -l "$l_cloudbot_out" | awk '{print $1}')
-echo "Processing: $@" >> "$l_cloudbot_msg" 2>&1
-echo "l_lines='$l_lines'" >> "$l_cloudbot_msg" 2>&1
+[ ! -s "$l_cloudbot_msg" ] && echo "Missing $l_cloudbot_msg" && exit 1
+if ! grep --quiet -i -e '"pong"' "$l_cloudbot_msg" ; then echo "Cloudbot is dead. Did you kill her?" ; exit 1 ; fi
+l_lines=$(wc -l "$l_cloudbot_msg" | awk '{print $1}')
+echo "Processing: $@" >> "$l_cloudbot_dbg" 2>&1
+echo "l_lines='$l_lines'" >> "$l_cloudbot_dbg" 2>&1
 
-# write input to cloudbot
-echo "$*" > "$l_cloudbot_pipe"
+# vars that now apply
+export CLOUDBOT_PORT=${CLOUDBOT_PORT:-8001}
+export POST_RESPONSE_PORT=${POST_RESPONSE_PORT:-8002}
+export HUBOT_POST_RESPONSES_URL="http://localhost:$POST_RESPONSE_PORT/"
+
+# invoke
+printf -v var "%q\n" "$*"
+#set -x
+l_curl_msg=$(curl -X POST http://localhost:8001/receive/general -H "Content-Type: application/json" -d "{\"from\":\"@shell\",\"message\":\"cloudbot $*\"}" 2>&1)
+l_rc=$?
+[ $l_rc -ne 0 ] && echo "Failed to invoke cloudbot" && exit $l_rc
+if ! echo "$l_curl_msg" | grep --quiet -i -e '"status":"received"' ; then
+  echo "Failed to invoke cloudbot" && exit 1
+fi
 
 # wait for output
 #set -x
 while true ; do
-  l_newlines=$(wc -l "$l_cloudbot_out" | awk '{print $1}')
+  l_newlines=$(wc -l "$l_cloudbot_msg" | awk '{print $1}')
   [ $l_lines -ne $l_newlines ] && break
 done
 
 # sleep a second to be sure we have output
-sleep 2
-l_newlines=$(wc -l "$l_cloudbot_out" | awk '{print $1}')
+sleep 1
+l_newlines=$(wc -l "$l_cloudbot_msg" | awk '{print $1}')
 
 # get output
-echo "Found l_newlines='$l_newlines'; diff='$((l_newlines - l_lines - 1))'" >> "$l_cloudbot_msg" 2>&1
-l_msg=$(tail -n $((l_newlines - l_lines)) "$l_cloudbot_out")
+echo "Found l_newlines='$l_newlines'; diff='$((l_newlines - l_lines))'" >> "$l_cloudbot_dbg" 2>&1
+l_msg=$(tail -n $((l_newlines - l_lines)) "$l_cloudbot_msg")
 
 # remove terminal escapes and cloudbot prompt
-l_msg2=$(echo "$l_msg" | sed -r "s,\x1B\[[0-9;]*[a-zA-Z],,g" | sed -e 's#cloudbot> ##' | sed -e '/^cloudbot /d' | sed -e 's#,\? @Shell##g' | sed -e 's#^Shell: ##' )
-
-# output to user
-echo "$l_msg2"
-
-# some testing stuff
-# HEXVAL=$(xxd -pu <<< "$l_msg2") ; echo "'$HEXVAL'"
+#set -x
+echo "$l_msg" | python -c 'import json,sys;obj=json.load(sys.stdin);print obj["message"]'
 
