@@ -9,6 +9,7 @@ l_cloudbot_msg='./.localdata/cloudbot_msg'
 
 # must have something already in output so wc will work
 [ ! -s "$l_cloudbot_out" ] && echo "Missing $l_cloudbot_out" && exit 1
+if ! grep --quiet -i -e ' pong' "$l_cloudbot_out" ; then echo "Cloudbot is dead. Did you kill her?" ; exit 1 ; fi
 l_lines=$(wc -l "$l_cloudbot_out" | awk '{print $1}')
 echo "Processing: $@" >> "$l_cloudbot_msg" 2>&1
 echo "l_lines='$l_lines'" >> "$l_cloudbot_msg" 2>&1

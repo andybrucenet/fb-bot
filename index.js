@@ -123,9 +123,9 @@ app.post('/webhook/', function (req, res) {
         sendGenericMessage(sender)
         continue
       }
-      var regexEcho = /^echo /
-      if (text.match(regexEcho)) {
-        sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200))
+      var regexSay = /^say /
+      if (text.match(regexSay)) {
+        sendTextMessage(sender, text.substring(0, 200) + '?')
       } else {
         // invoke helper
         shell.exec('./scripts/tell-cloudbot.sh cloudbot ' + text.substring(0, 200), function(code, stdout, stderr) {
