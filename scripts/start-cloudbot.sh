@@ -29,10 +29,12 @@ export CLOUDBOT_PORT=${CLOUDBOT_PORT:-8001}
 export PORT=${CLOUDBOT_PORT}
 export POST_RESPONSE_PORT=${POST_RESPONSE_PORT:-8002}
 export HUBOT_POST_RESPONSES_URL="http://localhost:$POST_RESPONSE_PORT/"
+export NODE_VERBOSE=true
+export NODE_DEBUG=cluster,net,http,fs,tls,module,timers
 
 # start receiver
 echo 'Start python server...'
-nohup ./scripts/cloudbot-receiver.py $POST_RESPONSE_PORT >>"$l_cloudbot_msg" 2>"$l_cloudbot_err" &
+./scripts/cloudbot-receiver.py $POST_RESPONSE_PORT >>"$l_cloudbot_msg" 2>"$l_cloudbot_err" &
 l_rc=$?
 [ $l_rc -ne 0 ] && echo "Failed to start python server" && exit $l_rc
 sleep 2
@@ -43,7 +45,7 @@ cd lcl-hubot
 npm install
 l_rc=$?
 [ $l_rc -ne 0 ] && echo "Failed to npm install" && exit $l_rc
-nohup node_modules/.bin/hubot -a http-adapter -n cloudbot >> ".$l_cloudbot_dbg" 2>&1 &
+node_modules/.bin/hubot -a http-adapter -n cloudbot >> ".$l_cloudbot_dbg" 2>&1 &
 l_rc=$?
 [ $l_rc -ne 0 ] && echo "Failed to start cloudbot" && exit $l_rc
 sleep 3
