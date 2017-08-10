@@ -1,0 +1,10 @@
+#!/bin/bash
+# start-node.sh, ABr
+# Start the node app
+
+# first, start the cloudbot
+./scripts/start-cloudbot.sh
+
+# now start the node
+node index.js
+
