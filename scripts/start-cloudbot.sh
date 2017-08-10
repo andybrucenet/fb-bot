@@ -7,6 +7,7 @@ l_cloudbot_out='./.localdata/cloudbot_out'
 l_cloudbot_msg='./.localdata/cloudbot_msg'
 l_cloudbot_err='./.localdata/cloudbot_err'
 l_cloudbot_dbg='./.localdata/cloudbot_dbg'
+l_cloudbot_tell='./.localdata/cloudbot_tell'
 
 # ensure folder exists
 mkdir -p ./.localdata
@@ -20,6 +21,7 @@ echo 'First-Msg' > "$l_cloudbot_msg"
 echo 'First-Err' > "$l_cloudbot_err"
 echo 'First-Out' > "$l_cloudbot_out"
 echo 'First-Dbg' > "$l_cloudbot_dbg"
+echo 'First-Tell' > "$l_cloudbot_tell"
 
 # vars that now apply
 export PATH="node_modules/.bin:node_modules/hubot/node_modules/.bin:$PATH"
