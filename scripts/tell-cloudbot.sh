@@ -23,8 +23,9 @@ export HUBOT_POST_RESPONSES_URL="http://localhost:$POST_RESPONSE_PORT/"
 
 # invoke
 #set -x
-echo curl -X POST http://localhost:8001/receive/general -H "Content-Type: application/json" -d "{\"from\":\"shell\",\"message\":\"cloudbot $*\"}" >> "$l_cloudbot_tell" 2>&1
-l_curl_msg=$(curl -X POST http://localhost:8001/receive/general -H "Content-Type: application/json" -d "{\"from\":\"shell\",\"message\":\"cloudbot $*\"}" 2>&1)
+l_clean=$(echo "$*" | sed "s/[^[:alnum:].! -]//g")
+echo curl -X POST http://localhost:8001/receive/general -H "Content-Type: application/json" -d "{\"from\":\"shell\",\"message\":\"cloudbot $l_clean\"}" >> "$l_cloudbot_tell" 2>&1
+l_curl_msg=$(curl -X POST http://localhost:8001/receive/general -H "Content-Type: application/json" -d "{\"from\":\"shell\",\"message\":\"cloudbot $l_clean\"}" 2>&1)
 l_rc=$?
 echo "curl returned $l_rc: '$l_curl_msg'" >> "$l_cloudbot_tell" 2>&1
 [ $l_rc -ne 0 ] && echo "Failed to invoke cloudbot" && exit $l_rc
