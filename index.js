@@ -130,7 +130,7 @@ app.post('/webhook/', function (req, res) {
         // invoke helper
         var the_text = text.substring(0, 200)
         console.log('Invoking cloudbot for "' + the_text + '"')
-        shell.exec('./scripts/tell-cloudbot.sh cloudbot ' + the_text, function(code, stdout, stderr) {
+        shell.exec('./scripts/tell-cloudbot.sh ' + the_text, function(code, stdout, stderr) {
           sendTextMessage(sender, stdout);
           console.log('Exit code:', code);
           console.log('stderr:', stderr);
