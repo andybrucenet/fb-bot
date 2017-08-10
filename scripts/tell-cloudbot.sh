@@ -23,7 +23,7 @@ export HUBOT_POST_RESPONSES_URL="http://localhost:$POST_RESPONSE_PORT/"
 # invoke
 printf -v var "%q\n" "$*"
 #set -x
-l_curl_msg=$(curl -X POST http://localhost:8001/receive/general -H "Content-Type: application/json" -d "{\"from\":\"@shell\",\"message\":\"cloudbot $*\"}" 2>&1)
+l_curl_msg=$(curl -X POST http://localhost:8001/receive/general -H "Content-Type: application/json" -d "{\"from\":\"shell\",\"message\":\"cloudbot $*\"}" 2>&1)
 l_rc=$?
 [ $l_rc -ne 0 ] && echo "Failed to invoke cloudbot" && exit $l_rc
 if ! echo "$l_curl_msg" | grep --quiet -i -e '"status":"received"' ; then
@@ -32,9 +32,14 @@ fi
 
 # wait for output
 #set -x
+l_ctr=1
+l_max=10
 while true ; do
   l_newlines=$(wc -l "$l_cloudbot_msg" | awk '{print $1}')
   [ $l_lines -ne $l_newlines ] && break
+  [ $l_ctr -gt $l_max ] && echo 'Timeout' && exit 1
+  sleep 1
+  l_ctr=$((l_ctr + 1))
 done
 
 # sleep a second to be sure we have output
@@ -47,5 +52,6 @@ l_msg=$(tail -n $((l_newlines - l_lines)) "$l_cloudbot_msg")
 
 # remove terminal escapes and cloudbot prompt
 #set -x
-echo "$l_msg" | python -c 'import json,sys;obj=json.load(sys.stdin);print obj["message"]'
+l_msg2=$(echo "$l_msg" | python -c 'import json,sys;obj=json.load(sys.stdin);print obj["message"]' | sed -e 's# \?@\+shell \?##g')
+echo "$l_msg2"
 
