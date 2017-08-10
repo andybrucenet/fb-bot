@@ -7,6 +7,9 @@ l_cloudbot_pipe='./.localdata/cloudbot_pipe'
 l_cloudbot_out='./.localdata/cloudbot_out'
 l_cloudbot_msg='./.localdata/cloudbot_msg'
 
+# ensure folder exists
+mkdir -p ./.localdata
+
 # get rid of files
 echo 'Clean up old files...'
 rm -fR "$l_cloudbot_pipe" "$l_cloudbot_out"
