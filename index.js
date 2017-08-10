@@ -131,6 +131,7 @@ app.post('/webhook/', function (req, res) {
         shell.exec('./scripts/tell-cloudbot.sh cloudbot ' + text.substring(0, 200), function(code, stdout, stderr) {
           sendTextMessage(sender, stdout);
           console.log('Exit code:', code);
+          console.log('stderr:', stderr);
         });
       }
     }
