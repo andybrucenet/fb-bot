@@ -125,7 +125,7 @@ app.post('/webhook/', function (req, res) {
       }
       var regexSay = /^say /
       if (text.match(regexSay)) {
-        sendTextMessage(sender, text.substring(0, 200) + '?')
+        sendTextMessage(sender, text.substring(4, 200) + '?')
       } else {
         // invoke helper
         shell.exec('./scripts/tell-cloudbot.sh cloudbot ' + text.substring(0, 200), function(code, stdout, stderr) {
