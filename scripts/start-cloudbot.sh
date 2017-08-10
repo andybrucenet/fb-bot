@@ -29,8 +29,8 @@ export CLOUDBOT_PORT=${CLOUDBOT_PORT:-8001}
 export PORT=${CLOUDBOT_PORT}
 export POST_RESPONSE_PORT=${POST_RESPONSE_PORT:-8002}
 export HUBOT_POST_RESPONSES_URL="http://localhost:$POST_RESPONSE_PORT/"
-export NODE_VERBOSE=true
-export NODE_DEBUG=cluster,net,http,fs,tls,module,timers
+#export NODE_VERBOSE=true
+#export NODE_DEBUG=cluster,net,http,fs,tls,module,timers
 
 # start receiver
 echo 'Start python server...'
