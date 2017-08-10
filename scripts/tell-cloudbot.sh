@@ -51,7 +51,7 @@ echo "Found l_newlines='$l_newlines'; diff='$((l_newlines - l_lines))'" >> "$l_c
 l_tmp="/tmp/tell-cloudbot.$$"
 tail -n $((l_newlines - l_lines)) "$l_cloudbot_msg" > "$l_tmp"
 while IFS= read -r l_msg; do
-  l_msg2=$(echo "$l_msg" | python -c 'import json,sys;obj=json.load(sys.stdin);print obj["message"]' | sed -e 's# \?@\+shell \?##g')
+  l_msg2=$(echo "$l_msg" | python -c 'import codecs,json,sys;obj=json.load(sys.stdin);UTF8Writer=codecs.getwriter("utf8");sys.stdout=UTF8Writer(sys.stdout);print obj["message"]' | sed -e 's# \?@\+shell \?##g')
   echo "$l_msg2"
 done < "$l_tmp"
 rm -f "$l_tmp"
