@@ -23,8 +23,8 @@ export HUBOT_POST_RESPONSES_URL="http://localhost:$POST_RESPONSE_PORT/"
 
 # invoke
 #set -x
-l_clean=$(echo "$*" | sed "s/[^[:alnum:].! -]//g")
-echo curl -X POST http://localhost:8001/receive/general -H "Content-Type: application/json" -d "{\"from\":\"shell\",\"message\":\"cloudbot $l_clean\"}" >> "$l_cloudbot_tell" 2>&1
+l_clean=$(echo "$*" | sed 's/[^[:alnum:].!, -]//g')
+echo curl -X POST http://localhost:8001/receive/general -H "Content-Type: application/json" -d "{\"from\":\"@shell\",\"message\":\"cloudbot $l_clean\"}" >> "$l_cloudbot_tell" 2>&1
 l_curl_msg=$(curl -X POST http://localhost:8001/receive/general -H "Content-Type: application/json" -d "{\"from\":\"shell\",\"message\":\"cloudbot $l_clean\"}" 2>&1)
 l_rc=$?
 echo "curl returned $l_rc: '$l_curl_msg'" >> "$l_cloudbot_tell" 2>&1
@@ -54,7 +54,7 @@ echo "Found l_newlines='$l_newlines'; diff='$((l_newlines - l_lines))'" >> "$l_c
 l_tmp="/tmp/tell-cloudbot.$$"
 tail -n $((l_newlines - l_lines)) "$l_cloudbot_msg" > "$l_tmp"
 while IFS= read -r l_msg; do
-  l_msg2=$(echo "$l_msg" | python -c 'import codecs,json,sys;obj=json.load(sys.stdin);UTF8Writer=codecs.getwriter("utf8");sys.stdout=UTF8Writer(sys.stdout);print obj["message"]' | sed -e 's# \?@\+shell \?##g')
+	l_msg2=$(echo "$l_msg" | python -c 'import codecs,json,sys;obj=json.load(sys.stdin);UTF8Writer=codecs.getwriter("utf8");sys.stdout=UTF8Writer(sys.stdout);print obj["message"]' | sed -e 's# \?\(@\+\)\?shell \?##g')
   echo "$l_msg2"
 done < "$l_tmp"
 rm -f "$l_tmp"
