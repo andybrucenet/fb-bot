@@ -26,7 +26,10 @@ sleep 1
 # start process
 echo 'Start cloudbot...'
 cd lcl-hubot
-./bin/hubot -a shell -n cloudbot < ".$l_cloudbot_pipe" >> ".$l_cloudbot_out" &
+npm install
+export PATH="node_modules/.bin:node_modules/hubot/node_modules/.bin:$PATH"
+nohup exec node_modules/.bin/hubot \
+  -a shell -n cloudbot < ".$l_cloudbot_pipe" >> ".$l_cloudbot_out" 2>&1 &
 sleep 3
 
 # send a couple of messages
