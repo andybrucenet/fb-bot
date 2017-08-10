@@ -48,10 +48,15 @@ l_newlines=$(wc -l "$l_cloudbot_msg" | awk '{print $1}')
 
 # get output
 echo "Found l_newlines='$l_newlines'; diff='$((l_newlines - l_lines))'" >> "$l_cloudbot_dbg" 2>&1
-l_msg=$(tail -n $((l_newlines - l_lines)) "$l_cloudbot_msg")
+l_tmp="/tmp/tell-cloudbot.$$"
+tail -n $((l_newlines - l_lines)) "$l_cloudbot_msg" > "$l_tmp"
+while IFS= read -r l_msg; do
+  l_msg2=$(echo "$l_msg" | python -c 'import json,sys;obj=json.load(sys.stdin);print obj["message"]' | sed -e 's# \?@\+shell \?##g')
+  echo "$l_msg2"
+done < "$l_tmp"
+rm -f "$l_tmp"
 
 # remove terminal escapes and cloudbot prompt
-#set -x
-l_msg2=$(echo "$l_msg" | python -c 'import json,sys;obj=json.load(sys.stdin);print obj["message"]' | sed -e 's# \?@\+shell \?##g')
-echo "$l_msg2"
+set -x
+
 
