@@ -1,0 +1,27 @@
+[
+  "hubot-diagnostics",
+  "hubot-help",
+  "hubot-heroku-keepalive",
+  "hubot-google-images",
+  "hubot-pugme",
+  "hubot-maps",
+  "hubot-redis-brain",
+  "hubot-rules",
+  "hubot-shipit",
+  "hubot-business-cat",
+  "hubot-thesimpsons",
+  "hubot-guys",
+  "hubot-brain-inspect",
+  "hubot-acrogov",
+  "hubot-friendly",
+  "hubot-falsehoods",
+  "hubot-thank-you",
+  "hubot-jokes",
+  "hubot-where-are-you",
+  "hubot-hackernews",
+  "hubot-decides",
+  "hubot-cool-ascii-faces",
+  "hubot-buddy-the-elf",
+  "hubot-eliza"
+]
+

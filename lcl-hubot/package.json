@@ -1,0 +1,41 @@
+{
+  "name": "lcl-hubot",
+  "version": "0.0.0",
+  "private": true,
+  "author": "Andrew Bruce <andy@cloudraticsolutions.net>",
+  "description": "fb-bot's brain",
+  "dependencies": {
+    "coffee-script": "^1.12.7",
+    "hubot": "^2.19.0",
+    "hubot-acrogov": "^2.4.1",
+    "hubot-brain-inspect": "0.0.1",
+    "hubot-buddy-the-elf": "0.0.2",
+    "hubot-business-cat": "^1.5.8",
+    "hubot-cool-ascii-faces": "^1.2.0",
+    "hubot-decides": "0.0.8",
+    "hubot-diagnostics": "0.0.2",
+    "hubot-eliza": "^1.0.0",
+    "hubot-falsehoods": "0.0.1",
+    "hubot-friendly": "0.0.2",
+    "hubot-google-images": "^0.2.7",
+    "hubot-guys": "0.0.1",
+    "hubot-hackernews": "^1.0.0",
+    "hubot-help": "^0.2.2",
+    "hubot-heroku-keepalive": "^1.0.3",
+    "hubot-jokes": "0.0.12",
+    "hubot-maps": "0.0.3",
+    "hubot-pugme": "^0.1.1",
+    "hubot-redis-brain": "0.0.4",
+    "hubot-rules": "^0.1.2",
+    "hubot-scripts": "^2.17.2",
+    "hubot-shell": "^1.0.2",
+    "hubot-shipit": "^0.2.1",
+    "hubot-thank-you": "0.0.3",
+    "hubot-thesimpsons": "^1.1.5",
+    "hubot-where-are-you": "0.0.1",
+    "jsdom": "^11.1.0"
+  },
+  "engines": {
+    "node": "0.10.x"
+  }
+}
