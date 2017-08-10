@@ -8,6 +8,7 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const request = require('request')
+const shell = require('shelljs');
 
 //////////////////////////////////////////////////////////////
 // globals
@@ -126,7 +127,11 @@ app.post('/webhook/', function (req, res) {
       if (text.match(regexEcho)) {
         sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200))
       } else {
-        sendTextMessage(sender, "TODO: cloudbot " + text.substring(0, 200))
+        // invoke helper
+        shell.exec('./scripts/tell-cloudbot.sh cloudbot ' + text.substring(0, 200), function(code, stdout, stderr) {
+          sendTextMessage(sender, stdout);
+          console.log('Exit code:', code);
+        });
       }
     }
     if (event.postback) {

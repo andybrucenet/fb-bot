@@ -13,6 +13,7 @@
     "express": "^4.15.4",
     "generator-hubot": "^0.4.0",
     "request": "^2.81.0",
+    "shelljs": "^0.7.8",
     "yo": "^2.0.0"
   }
 }
