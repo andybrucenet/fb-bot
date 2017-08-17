@@ -30,6 +30,7 @@
     "hubot-scripts": "^2.17.2",
     "hubot-shell": "^1.0.2",
     "hubot-shipit": "^0.2.1",
+    "hubot-suggest": "^1.0.0",
     "hubot-thank-you": "0.0.3",
     "hubot-thesimpsons": "^1.1.5",
     "hubot-where-are-you": "0.0.1",

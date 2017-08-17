@@ -21,6 +21,7 @@
   "hubot-decides",
   "hubot-cool-ascii-faces",
   "hubot-buddy-the-elf",
-  "hubot-eliza"
+  "hubot-eliza",
+	"hubot-suggest"
 ]
 

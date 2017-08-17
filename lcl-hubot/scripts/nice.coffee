@@ -22,7 +22,7 @@ hugs = [
 ]
 
 module.exports = (robot)->
-  robot.respond /be nice|i love you/i, (message)->
+  robot.respond /be nice/i, (message)->
     rnd = Math.floor Math.random() * hugs.length
     message.send hugs[rnd]
 
