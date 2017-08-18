@@ -22,7 +22,7 @@ hugs = [
 ]
 
 module.exports = (robot)->
-  robot.respond /i (((hate)|((do not|don't) (like|want))) you/i, (message)->
+  robot.respond /i ((hate)|((do not|don't) (like|want))) you/i, (message)->
     rnd = Math.floor Math.random() * hugs.length
     message.send hugs[rnd]
 

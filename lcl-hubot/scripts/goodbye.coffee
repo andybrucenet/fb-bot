@@ -1,17 +1,26 @@
+# Description:
+#   Fill your chat with some kindness
+#
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot be nice - just gives some love :)
+#
+# Author:
+#   nesQuick
+
 goodbyes = [
-  "Bye, {name}.",
-  "Later, {name}.",
-  "Take care, {name}."
+  "Bye.",
+  "Later.",
+  "Take care."
 ]
 
-goodbye = (name) ->
-  index = parseInt((Math.random() * goodbyes.length) >> 0)
-  message = goodbyes[index]
-  message.replace(/{name}/, name);
-
-module.exports = (robot) ->
-  robot.hear /(?:bye|later|see y(?:ou|a)|take care),?\s(.*)/i, (msg) ->
-    if robot.name.toLowerCase() == msg.match[1].toLowerCase()
-      goodbyeMessage = goodbye(msg.message.user.name)
-      msg.send(goodbyeMessage)
+module.exports = (robot)->
+  robot.respond /(?:bye|later|see y(?:ou|a)|take care)/i, (msg) ->
+    rnd = Math.floor Math.random() * goodbyes.length
+    msg.send goodbyes[rnd]
 
